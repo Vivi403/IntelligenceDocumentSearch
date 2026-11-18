@@ -48,3 +48,55 @@ def save_chunks(document_id, chunks, embeddings):
                 chunk_ids.append(cursor.fetchone()[0])
 
     return chunk_ids
+
+
+def get_chunks_by_ids(chunk_ids):
+
+    if not chunk_ids:
+        return []
+
+    with get_connection() as conn:
+
+        with conn.cursor() as cursor:
+
+            cursor.execute(
+                """
+                select id, document_id, content
+                from chunks
+                where id = any(%s)
+                """,
+                (chunk_ids,),
+            )
+
+            return cursor.fetchall()
+
+
+def fulltext_search(user_input, limit):
+
+    if not user_input:
+        return []
+
+    with get_connection() as conn:
+
+        with conn.cursor() as cursor:
+
+            cursor.execute(
+                """
+                SELECT
+                id,
+                document_id,
+                content,
+                ts_rank(
+                    to_tsvector('russian', content),
+                    plainto_tsquery('russian', %s)
+                ) AS score
+            FROM chunks
+            WHERE to_tsvector('russian', content)
+                @@ plainto_tsquery('russian', %s)
+            ORDER BY score DESC
+            LIMIT %s;
+                """,
+                (user_input, user_input, limit),
+            )
+
+            return cursor.fetchall()

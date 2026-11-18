@@ -37,3 +37,13 @@ def save_vectors(client, document_id, chunk_ids, embeddings):
         points.append(point)
 
     client.upsert(collection_name=COLLECTION_NAME, points=points)
+
+
+def search_vectors(client, query_vector, limit):
+
+    return client.query_points(
+        collection_name=COLLECTION_NAME,
+        query=query_vector,
+        limit=limit,
+        with_payload=True,
+    )

@@ -23,6 +23,8 @@ EMBEDDING_MODEL = os.environ.get(
 CHUNK_SIZE = int(os.environ.get("CHUNK_SIZE", 800))
 CHUNK_OVERLAP = int(os.environ.get("CHUNK_OVERLAP", 150))
 
+SEARCH_LIMIT = int(os.environ.get("SEARCH_LIMIT", 10))
+
 if CHUNK_SIZE <= 0:
     raise ValueError("Размер чанка не может быть меньше нуля")
 
