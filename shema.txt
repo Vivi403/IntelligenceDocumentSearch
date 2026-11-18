@@ -1,0 +1,58 @@
+
+IntelligentDocumentSearch/
+│
+├── src/
+│   ├── __init__.py
+│   ├── main.py
+│   ├── settings.py
+│   │
+│   ├── extractor.py
+│   ├── cleaner.py
+│   ├── chunker.py
+│   ├── pipeline.py
+│   │
+│   ├── embedder.py
+│   │
+│   ├── db/
+│   │   ├── __init__.py
+│   │   ├── connection.py
+│   │   ├── models.py
+│   │   ├── repositories.py
+│   │   └── schema.sql
+│   │
+│   ├── search/
+│   │   ├── __init__.py
+│   │   ├── semantic_search.py
+│   │   ├── keyword_search.py
+│   │   └── hybrid_search.py
+│   │
+│   ├── generation/
+│   │   ├── __init__.py
+│   │   ├── llm_client.py
+│   │   ├── prompt_builder.py
+│   │   └── answer_generator.py
+│   │
+│   └── api/
+│       ├── __init__.py
+│       ├── documents.py
+│       ├── search.py
+│       └── schemas.py
+│
+├── tests/
+│   ├── test_extractor.py
+│   ├── test_cleaner.py
+│   ├── test_chunker.py
+│   ├── test_embedder.py
+│   ├── test_search.py
+│   └── test_api.py
+│
+├── data/
+│   ├── raw/
+│   └── processed/
+│
+├── .env
+├── .gitignore
+├── requirements.txt
+├── Dockerfile
+├── docker-compose.yml
+└── README.md
