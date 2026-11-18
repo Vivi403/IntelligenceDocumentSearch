@@ -3,10 +3,11 @@ from src.cleaner import clean_text
 from src.chunker import split_into_chunks
 from src.embedder import create_embeddings
 from src.db.repositories import save_document, save_chunks
+from src.db.qdrant_store import get_qdrant_client, save_vectors
 from pathlib import Path
 
 
-def process_file(file_path, model) -> dict:
+def process_file(file_path, model, client) -> dict:
 
     document = extract_file(file_path)
     clean_doc = clean_text(document.text)
@@ -14,7 +15,9 @@ def process_file(file_path, model) -> dict:
     embeddings = create_embeddings(chunks, model)
 
     doc_id = save_document(Path(file_path).name, document.file_type, document.source)
-    save_chunks(doc_id, chunks, embeddings)
+    chunk_ids = save_chunks(doc_id, chunks, embeddings)
+
+    save_vectors(client, doc_id, chunk_ids, embeddings)
 
     return {
         "document_id": doc_id,

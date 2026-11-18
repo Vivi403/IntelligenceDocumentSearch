@@ -31,6 +31,8 @@ def save_chunks(document_id, chunks, embeddings):
     with get_connection() as conn:
         register_vector(conn)
 
+        chunk_ids = []
+
         with conn.cursor() as cursor:
             for index, (chunk, embedding) in enumerate(zip(chunks, embeddings)):
 
@@ -38,8 +40,11 @@ def save_chunks(document_id, chunks, embeddings):
                     """
                     insert into chunks(document_id, chunk_index, content, embedding)
                     values(%s, %s, %s, %s)
+                    RETURNING id
                     """,
                     (document_id, index, chunk, embedding),
                 )
 
-    return
+                chunk_ids.append(cursor.fetchone()[0])
+
+    return chunk_ids
