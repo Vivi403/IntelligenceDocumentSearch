@@ -1,5 +1,7 @@
-from db.repositories import save_document
+from src.db.qdrant_store import get_qdrant_client, create_collection
 
-document_id = save_document("oop-ru.pdf", "pdf", "data/raw/oop-ru.pdf")
+cl = get_qdrant_client()
 
-print("ID документа:", document_id)
+create_collection(cl)
+
+print(cl.get_collections())
