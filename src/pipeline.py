@@ -3,7 +3,7 @@ from src.cleaner import clean_text
 from src.chunker import split_into_chunks
 from src.embedder import create_embeddings
 from src.db.repositories import save_document, save_chunks
-from src.db.qdrant_store import get_qdrant_client, save_vectors
+from src.db.qdrant_store import save_vectors
 from pathlib import Path
 
 

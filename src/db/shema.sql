@@ -19,4 +19,6 @@ create table chunks(
     unique(document_id, chunk_index)
 );  
 
-SELECT version();
+CREATE INDEX chunks_content_fts_idx
+ON chunks
+USING GIN (to_tsvector('russian', content));

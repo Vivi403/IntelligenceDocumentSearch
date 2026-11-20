@@ -4,6 +4,7 @@ from src.settings import RAW_DIR
 from src.embedder import load_model
 from src.db.qdrant_store import get_qdrant_client
 
+
 dir_path = Path(RAW_DIR)
 ext = {".txt", ".pdf", ".docx"}
 files = [p for p in dir_path.iterdir() if p.suffix.lower() in ext]

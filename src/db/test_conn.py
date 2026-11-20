@@ -1,14 +1,16 @@
+from generation.llm_client import generate_answer
+from generation.prompt import build_prompt
 from src.search.hybrid_search import hybrid_search
 from src.embedder import load_model
 from src.db.qdrant_store import get_qdrant_client
 
 model = load_model()
-client = get_qdrant_client()
+cl = get_qdrant_client()
 
-results = hybrid_search("Как работают классы в Python?", model, client)
+inp = "Что такое Python?"
 
-for result in results:
-    print(f"Chunk ID: {result['chunk_id']}")
-    print(f"Score: {result['rrf_score']:.5f}")
-    print(f"Text: {result['content']}")
-    print("-" * 60)
+context = [i["content"] for i in hybrid_search(inp, model, cl)]
+prompt = build_prompt(context, inp)
+answer = generate_answer(prompt)
+
+print(answer)

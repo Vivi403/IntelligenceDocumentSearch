@@ -3,7 +3,7 @@ from src.db.repositories import fulltext_search
 from src.settings import SEARCH_LIMIT
 from src.db.repositories import get_chunks_by_ids
 
-HYBRID_LIMIT = 10
+HYBRID_LIMIT = 6
 RRF_K = 60
 
 
