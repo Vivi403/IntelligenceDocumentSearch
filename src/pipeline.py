@@ -25,8 +25,3 @@ def process_file(file_path, model, client) -> dict:
         "chunks": chunks,
         "embeddings": embeddings,
     }
-
-
-# model = load_model()
-# result = process_file("oop-ru.pdf", model)
-# print(result)

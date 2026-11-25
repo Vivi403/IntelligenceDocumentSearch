@@ -20,10 +20,12 @@ EMBEDDING_MODEL = os.environ.get(
     "EMBEDDING_MODEL", "paraphrase-multilingual-MiniLM-L12-v2"
 )
 
+SEARCH_LIMIT = int(os.environ.get("SEARCH_LIMIT", 10))
+
+MAX_FILE_SIZE = 10 * 1024 * 1024  # 10 МБ
+
 CHUNK_SIZE = int(os.environ.get("CHUNK_SIZE", 800))
 CHUNK_OVERLAP = int(os.environ.get("CHUNK_OVERLAP", 150))
-
-SEARCH_LIMIT = int(os.environ.get("SEARCH_LIMIT", 10))
 
 if CHUNK_SIZE <= 0:
     raise ValueError("Размер чанка не может быть меньше нуля")
