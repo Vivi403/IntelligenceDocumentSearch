@@ -100,3 +100,58 @@ def fulltext_search(user_input, limit):
             )
 
             return cursor.fetchall()
+
+
+def get_all_documents():
+
+    with get_connection() as conn:
+        with conn.cursor() as cursor:
+            cursor.execute("""
+                select id, filename, file_type, storage_path
+                from documents
+                order by id
+                """)
+            rows = cursor.fetchall()
+
+    return [{"id": row[0], "filename": row[1], "file_type": row[2]} for row in rows]
+
+
+def get_document_by_id(document_id):
+
+    with get_connection() as conn:
+        with conn.cursor() as cursor:
+            cursor.execute(
+                """
+                select id, filename, file_type, storage_path
+                from documents
+                where id = %s
+                """,
+                (document_id,),
+            )
+
+            row = cursor.fetchone()
+
+    if row is None:
+        return None
+
+    return {
+        "id": row[0],
+        "filename": row[1],
+        "file_type": row[2],
+        "storage_path": row[3],
+    }
+
+
+def delete_document(document_id):
+    with get_connection() as conn:
+        with conn.cursor() as cursor:
+            cursor.execute(
+                """
+                delete from documents
+                where id = %s
+                returning id
+                """,
+                (document_id,),
+            )
+
+            return cursor.fetchone()
