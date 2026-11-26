@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f6f7fb">
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js?v=20261126-3" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <main class="main-content" id="workspace">
+      <header class="topbar">
+        <a class="brand" href="/" aria-label="IntelligenceDocumentSearch — главная">
+          <span class="brand-mark" aria-hidden="true">D</span>
+          <span class="brand-name">IntelligenceDocumentSearch</span>
+        </a>
+      </header>
+
+      <section class="welcome">
+        <div class="eyebrow">ПОИСК ПО ДОКУМЕНТАМ</div>
+        <p>Загрузите файлы, чтобы искать в них нужную информацию.</p>
+      </section>
+
+      <section class="panel assistant-panel" aria-labelledby="assistant-title">
+        <div class="assistant-top">
+          <div>
+            <h2 id="assistant-title">Вопрос по документам</h2>
+            <p>Ответ будет найден в загруженных материалах</p>
+          </div>
+        </div>
+
+        <div id="chat-messages" class="chat-messages" aria-live="polite">
+          <div class="welcome-message">
+            <strong>С чего начнём?</strong>
+            <p>Задайте вопрос, и я поищу ответ в ваших документах.</p>
+            <button class="suggestion" type="button">Какие основные темы раскрыты в документах?</button>
+          </div>
+        </div>
+
+        <form id="question-form" class="question-form">
+          <textarea id="question-input" name="question" rows="1" placeholder="Напишите вопрос по вашим документам…" aria-label="Ваш вопрос"></textarea>
+          <button class="send-button" type="submit" aria-label="Отправить вопрос">↑</button>
+        </form>
+        <div id="query-status" class="status-message" aria-live="polite"></div>
+        <div class="privacy-note">Ответ формируется на основе загруженных вами документов</div>
+      </section>
+
+      <div class="dashboard-grid">
+        <section class="panel upload-panel" aria-labelledby="upload-title">
+          <div class="panel-heading">
+            <div class="panel-icon upload-icon" aria-hidden="true">↑</div>
+            <div>
+              <h2 id="upload-title">Загрузка документов</h2>
+              <p>Добавьте файлы для поиска</p>
+            </div>
+          </div>
+
+          <form id="upload-form" class="upload-form">
+            <label class="drop-zone" for="file-input">
+              <span class="upload-cloud" aria-hidden="true">⇧</span>
+              <strong>Перетащите файл сюда</strong>
+              <span>или <span class="browse-link">выберите на устройстве</span></span>
+              <small>PDF, DOCX или TXT</small>
+            </label>
+            <input id="file-input" name="file" type="file" accept=".pdf,.docx,.txt">
+            <div id="selected-file" class="selected-file" aria-live="polite"></div>
+            <button class="primary-button full-button" type="submit">Загрузить документ <span>↗</span></button>
+            <div id="upload-status" class="status-message" aria-live="polite"></div>
+          </form>
+        </section>
+
+        <section class="panel documents-panel" id="documents" aria-labelledby="documents-title">
+          <div class="panel-heading documents-heading">
+            <div>
+              <h2 id="documents-title">Мои документы</h2>
+              <p>Файлы в вашей базе знаний</p>
+            </div>
+            <button id="refresh-documents" class="icon-button" type="button" title="Обновить список" aria-label="Обновить список">↻</button>
+          </div>
+          <div id="documents-list" class="documents-list">
+            <div class="empty-state">Загрузка списка документов…</div>
+          </div>
+        </section>
+      </div>
+
+      <footer>IntelligenceDocumentSearch <span>·</span> Интеллектуальный поиск по документам</footer>
+    </main>
+  </div>
+</body>
+</html>
