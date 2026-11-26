@@ -34,3 +34,13 @@ app.mount("/static", StaticFiles(directory=FRONTEND_DIR), name="static")
 @app.get("/")
 def home():
     return FileResponse(FRONTEND_DIR / "index.html")
+
+
+@app.get("/style.css")
+def frontend_styles():
+    return FileResponse(FRONTEND_DIR / "style.css", media_type="text/css")
+
+
+@app.get("/app.js")
+def frontend_script():
+    return FileResponse(FRONTEND_DIR / "app.js", media_type="text/javascript")
