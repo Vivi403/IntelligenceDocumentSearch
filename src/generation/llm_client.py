@@ -1,7 +1,8 @@
 import ollama
+import re
 
 
-def generate_answer(prompt: str, max_tokens: int = 150) -> str:
+def generate_answer(prompt: str, max_tokens: int = 520) -> str:
     response = ollama.chat(
         model="qwen3:4b",
         messages=[
@@ -23,4 +24,8 @@ def generate_answer(prompt: str, max_tokens: int = 150) -> str:
         options={"num_predict": max_tokens, "temperature": 0.2},
     )
 
-    return response["message"]["content"]
+    content = response["message"]["content"].strip()
+    paragraphs = re.split(r"\r?\n\s*\r?\n", content, maxsplit=1)
+    resp = paragraphs[1].strip() if len(paragraphs) > 1 else ""
+
+    return resp
