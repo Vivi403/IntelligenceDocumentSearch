@@ -1,6 +1,5 @@
 from fastapi import APIRouter, UploadFile, File, HTTPException, Request
 from pathlib import Path
-from uuid import uuid4
 
 from src.settings import RAW_DIR
 from src.pipeline import process_file
@@ -39,17 +38,43 @@ def ask_question(user_question: QuestionRequest, request: Request):
 
 @router.post("/documents")
 async def load_document(request: Request, file: UploadFile = File(...)):
-    ext = Path(file.filename).suffix.lower()
+    original_name = Path((file.filename or "").replace("\\", "/")).name
+    ext = Path(original_name).suffix.lower()
 
     if ext not in {".txt", ".pdf", ".docx"}:
         raise HTTPException(status_code=400, detail="Неподдерживаемый формат файла")
 
-    filename = f"{uuid4().hex}{ext}"
+    original_path = Path(original_name)
+    stem = original_path.stem or "Документ"
+    existing_names = {
+        document["filename"].casefold()
+        for document in get_all_documents()
+        if document.get("filename")
+    }
+    existing_names.update(path.name.casefold() for path in RAW_DIR.iterdir() if path.is_file())
+
+    filename = original_name
+    suffix_number = 1
+    while filename.casefold() in existing_names:
+        filename = f"{stem} ({suffix_number}){ext}"
+        suffix_number += 1
+
     file_path = RAW_DIR / filename
     total_size = 0
 
     try:
-        with file_path.open("wb") as buffer:
+        while True:
+            try:
+                buffer = file_path.open("xb")
+                break
+            except FileExistsError:
+                existing_names.add(filename.casefold())
+                while filename.casefold() in existing_names:
+                    filename = f"{stem} ({suffix_number}){ext}"
+                    suffix_number += 1
+                file_path = RAW_DIR / filename
+
+        with buffer:
             while True:
                 content = await file.read(CHUNK_SIZE)
 
